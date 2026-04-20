@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paul's Prints · 3D Print Service</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f0e;
+      --surface: #141714;
+      --surface2: #1c1f1c;
+      --border: #2a2f2a;
+      --accent: #7fff5f;
+      --accent2: #3db8ff;
+      --accent3: #ff7c3d;
+      --text: #e8ede8;
+      --muted: #7a8a7a;
+      --danger: #ff4d4d;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(127,255,95,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(127,255,95,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .otter-bg {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      font-size: 260px;
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 0;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .main-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 48px 0 32px;
+    }
+
+    .pp-badge {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 3px 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      animation: pulse-border 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { border-color: var(--accent); }
+      50% { border-color: rgba(127,255,95,0.25); }
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 10vw, 82px);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    h1 span { color: var(--accent); display: block; }
+
+    .tagline {
+      font-size: 13px;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      line-height: 1.7;
+      max-width: 500px;
+    }
+
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .status-item { display: flex; align-items: center; gap: 7px; }
+
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      animation: blink 2s ease-in-out infinite;
+    }
+    .dot.blue { background: var(--accent2); }
+    .dot.amber { background: #ffb347; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+
+    .pp-section { padding: 52px 0 0; }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    .note-block {
+      border-left: 3px solid var(--accent);
+      padding: 12px 18px;
+      background: rgba(127,255,95,0.04);
+      margin-bottom: 24px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .note-label { color: var(--accent); font-weight: 700; }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 576px) {
+      .price-grid { grid-template-columns: 1fr; }
+    }
+
+    .price-card {
+      background: var(--surface);
+      padding: 24px;
+      transition: background 0.2s;
+    }
+
+    .price-card:hover { background: var(--surface2); }
+
+    .card-icon { font-size: 24px; display: block; margin-bottom: 12px; }
+
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .card-sub {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .price-range {
+      font-family: 'Space Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .price-note {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeUp 0.45s ease forwards;
+    }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .fade-in:nth-child(1) { animation-delay: 0.05s; }
+    .fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in:nth-child(3) { animation-delay: 0.15s; }
+    .fade-in:nth-child(4) { animation-delay: 0.2s; }
+    .fade-in:nth-child(5) { animation-delay: 0.25s; }
+    .fade-in:nth-child(6) { animation-delay: 0.3s; }
+
+    .factor-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .factor-table th {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .factor-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      background: var(--surface);
+      line-height: 1.6;
+      color: #bbc8bb;
+    }
+
+    .factor-table tr:last-child td { border-bottom: none; }
+
+    .factor-table td:first-child {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+      white-space: nowrap;
+      width: 160px;
+    }
+
+    @media (max-width: 576px) {
+      .factor-table td:first-child { white-space: normal; width: auto; }
+      .factor-table { font-size: 12px; }
+      .factor-table td { padding: 10px 12px; }
+    }
+
+    strong { color: var(--text); font-weight: 500; }
+
+    .addon-list {
+      border: 1px solid var(--border);
+      background: var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+    }
+
+    @media (max-width: 576px) {
+      .addon-list { grid-template-columns: 1fr; }
+    }
+
+    .addon-item {
+      background: var(--surface);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.15s;
+    }
+
+    .addon-item:hover { background: var(--surface2); }
+    .addon-name { font-size: 13px; line-height: 1.4; color: var(--text); }
+    .addon-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .addon-price {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: var(--accent3);
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .info-block {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .info-block-header {
+      padding: 13px 20px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+    }
+
+    .info-block-body {
+      padding: 20px;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #bbc8bb;
+    }
+
+    .info-block-body ul { list-style: none; padding: 0; margin: 0; }
+
+    .info-block-body ul li {
+      padding: 4px 0 4px 18px;
+      position: relative;
+    }
+
+    .info-block-body ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      top: 5px;
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .payment-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .payment-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .payment-card {
+      background: var(--surface);
+      padding: 20px 16px;
+      text-align: center;
+      transition: background 0.15s;
+    }
+
+    .payment-card:hover { background: var(--surface2); }
+
+    .payment-card.preferred {
+      background: rgba(127,255,95,0.05);
+      border-left: 2px solid var(--accent);
+    }
+
+    .payment-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+
+    .payment-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .payment-note {
+      font-size: 10px;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+    }
+
+    .policy-strip {
+      border: 1px solid rgba(255,77,77,0.2);
+      background: rgba(255,77,77,0.04);
+      padding: 20px 24px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      line-height: 1.8;
+      color: #ccbbbb;
+    }
+
+    .policy-strip h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      color: var(--danger);
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+
+    /* NAV */
+    .pp-nav {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .pp-nav-toggle {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 12px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .pp-nav-toggle:hover { color: var(--text); }
+
+    .pp-nav-arrow {
+      font-size: 12px;
+      transition: transform 0.25s ease;
+      display: inline-block;
+    }
+
+    .pp-nav-arrow.open { transform: rotate(180deg); }
+
+    .pp-nav-links {
+      display: none;
+      padding: 8px 0 16px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pp-nav-links.open { display: flex; }
+
+    .pp-nav-link {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      background: var(--surface2);
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .pp-nav-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* BACK TO TOP */
+    .back-to-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 44px;
+      height: 44px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 200;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.15s;
+      text-decoration: none;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      border-color: var(--accent);
+      background: rgba(127,255,95,0.08);
+      color: var(--accent);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0 48px;
+      margin-top: 52px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="otter-bg">🦦</div>
+
+<div class="main-wrap">
+<div class="container" style="max-width: 920px;">
+
+  <header>
+    <div class="pp-badge">● Print Service · By Appointment</div>
+    <h1>Paul's<span>Prints</span></h1>
+    <p class="tagline">FDM filament · AMS multicolor · Resin · Cosplay builds. Small-batch to-order printing for display pieces, props, and everything in between.</p>
+  </header>
+
+  <div class="status-bar">
+    <div class="status-item"><span class="dot"></span> BAMBULAB P2S</div>
+    <div class="status-item"><span class="dot"></span> ELEGOO NEPTUNE 3 MAX</div>
+    <div class="status-item"><span class="dot blue"></span> AMS MULTICOLOR READY</div>
+    <div class="status-item"><span class="dot amber"></span> ELEGOO SATURN ULTRA · RESIN · CONTACT FIRST</div>
+  </div>
+
+  <!-- NAV -->
+  <div class="pp-nav">
+    <button class="pp-nav-toggle" id="navToggle" onclick="toggleNav()">
+      <span>JUMP TO SECTION</span>
+      <span class="pp-nav-arrow" id="navArrow">▼</span>
+    </button>
+    <div class="pp-nav-links" id="navLinks">
+      <a class="pp-nav-link" href="#pricing">01 · Pricing</a>
+      <a class="pp-nav-link" href="#factors">02 · Cost Factors</a>
+      <a class="pp-nav-link" href="#addons">03 · Add-ons</a>
+      <a class="pp-nav-link" href="#stl">04 · STL Files</a>
+      <a class="pp-nav-link" href="#process">05 · How It Works</a>
+      <a class="pp-nav-link" href="#sizing">06 · Sizing and Fit</a>
+      <a class="pp-nav-link" href="#shipping">07 · Shipping</a>
+      <a class="pp-nav-link" href="#payment">08 · Payment</a>
+      <a class="pp-nav-link" href="#rules">09 · Ground Rules</a>
+    </div>
+  </div>
+
+  <div class="pp-section" id="pricing">
+    <div class="section-label">// 01 · BASE RATES</div>
+    <h2>Print Pricing</h2>
+    <div class="note-block">
+      <span class="note-label">NOTE</span> · True pricing is entirely determined by the size and complexity of the object. The figures below are starting points, not estimates. I slice every file before quoting so you'll always get a real number before anything is agreed to. I'm fully transparent through the whole process. No surprises, no hidden costs.
+    </div>
+    <div class="price-grid">
+      <div class="price-card fade-in">
+        <span class="card-icon">🖨️</span>
+        <div class="card-title">Standard Print</div>
+        <div class="card-sub">Single color PLA or PETG. The go-to for most jobs.</div>
+        <span class="price-range">From $5</span>
+        <span class="price-note">Priced on grams of filament used. Quote after slicing.</span>
+      </div>
+      <div class="price-card fade-in">
+        <span class="card-icon">🎨</span>
+        <div class="card-title">Multicolor Print</div>
+        <div class="card-sub">Up to 4 colors via AMS. Purge waste is accounted for in the quote.</div>
+        <span class="price-range">From $15</span>
+        <span class="price-note">Priced on total filament consumed including purge waste.</span>
+      </div>
+      <div class="price-card fade-in">
+        <span class="card-icon">🔬</span>
+        <div class="card-title">Resin Print</div>
+        <div class="card-sub">High detail work. Figurines, minis, small props. Wash and cure always included.</div>
+        <span class="price-range">From $10</span>
+        <span class="price-note">Priced per mL of resin used. Contact me before assuming availability.</span>
+      </div>
+      <div class="price-card fade-in">
+        <span class="card-icon">📦</span>
+        <div class="card-title">Large Print</div>
+        <div class="card-sub">Multi-part builds, display pieces, anything over 400g.</div>
+        <span class="price-range">From $60</span>
+        <span class="price-note">Always quoted per job. Deposit required before I start.</span>
+      </div>
+      <div class="price-card fade-in">
+        <span class="card-icon">⚔️</span>
+        <div class="card-title">Cosplay Build</div>
+        <div class="card-sub">Helmets, armor, props, weapons. Sizing process applies. See below.</div>
+        <span class="price-range">From $50</span>
+        <span class="price-note">Always quoted after file review and measurements. No exceptions.</span>
+      </div>
+      <div class="price-card fade-in">
+        <span class="card-icon">💬</span>
+        <div class="card-title">Not Sure?</div>
+        <div class="card-sub">Just reach out. Send the file or describe what you want and I'll figure it out with you.</div>
+        <span class="price-range">Let's talk</span>
+        <span class="price-note">No commitment to get a quote.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 COST FACTORS -->
+  <div class="pp-section" id="factors">
+    <div class="section-label">// 02 · COST FACTORS</div>
+    <h2>What Affects Your Price</h2>
+    <div class="table-responsive">
+      <table class="factor-table">
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>How It Affects Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Material weight</td>
+            <td>The primary driver. Your slicer shows exact grams and that's what you're billed on. <strong>Multicolor jobs are billed on total filament consumed</strong>, including purge waste, not just what's in the final print.</td>
+          </tr>
+          <tr>
+            <td>Print time</td>
+            <td>Longer jobs carry more failure risk. Prints over 12 hours include a <strong>scaled risk buffer</strong>. A 24hr print failing costs a lot more than a 2hr one going sideways.</td>
+          </tr>
+          <tr>
+            <td>Material type</td>
+            <td>Standard PLA is cheapest. PETG is a small bump. <strong>Specialty filaments</strong> (ABS, TPU, silk, matte PLA) priced on material cost plus 30% margin.</td>
+          </tr>
+          <tr>
+            <td>Supports</td>
+            <td>Supports always come off before you get the print. That's just standard. If a job has <strong>exceptionally dense supports</strong> that take significant time to remove, there may be a small cleanup fee of $5 to $10.</td>
+          </tr>
+          <tr>
+            <td>Color count (AMS)</td>
+            <td>Each additional color increases purge waste. <strong>2 color adds ~$3, 4 color adds ~$8 to $10</strong> vs. single color. All baked into the total filament consumed figure.</td>
+          </tr>
+          <tr>
+            <td>Color assignment</td>
+            <td>If your file already has colors assigned and ready to go, no extra charge. If I have to <strong>manually paint and assign every color region</strong> on a model myself, that's additional labor quoted based on how complex the model is. The more regions, the more time.</td>
+          </tr>
+          <tr>
+            <td>Oversized models</td>
+            <td>Anything too large to fit on a single print bed gets split into segments and printed in parts. This is standard for large props and weapons. <strong>Assembly of those segments into a final piece is a separate cost</strong>, quoted per job based on how many parts there are and how involved the joining is.</td>
+          </tr>
+          <tr>
+            <td>File readiness</td>
+            <td>If you send a clean STL ready to slice, no charge. If the file needs repair, rescaling, or orientation work, there's a <strong>$5 to $15 file prep fee</strong>.</td>
+          </tr>
+          <tr>
+            <td>Failure rate buffer</td>
+            <td>Built into all quotes at ~15%. Covers the reality that prints fail. Bad adhesion, power hiccup, spaghetti. You don't get charged again if a redo is needed on my end.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-block mt-3">
+      <div class="info-block-header"><span>🧮</span> HOW I ACTUALLY CALCULATE YOUR QUOTE</div>
+      <div class="info-block-body">
+        I want this to be fully transparent so you know I'm not just making numbers up. Every quote I send is built from the same three pieces.<br><br>
+        <strong>1. Material cost.</strong> I slice your file in OrcaSlicer and it tells me the exact grams of filament your print uses. I take that number, multiply it by what the filament actually costs per gram, then apply a 3x multiplier. That multiplier covers machine wear, electricity, filament that gets wasted on failed prints over time, and the cost of running the service. It's standard for small print operations and it's how I keep this sustainable without overcharging.<br><br>
+        <strong>2. Labor fee.</strong> A flat $8 to $15 per job depending on complexity. This covers my actual time — slicing, setup, QC, support removal, and back and forth communication. The machine does the printing but I'm still putting real time into every order.<br><br>
+        <strong>3. Failure buffer.</strong> 15% on top of material cost. Prints fail sometimes. Bad bed adhesion, a power hiccup, spaghetti at hour 14. That buffer means I don't have to charge you again if something goes wrong on my end and I have to reprint.<br><br>
+        For longer prints (12 hours or more) I add a small risk bump on top of that since a failure on a long job costs a lot more than a failure on a short one. I'll always call that out in the quote when it applies so you can see exactly where the number comes from.
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 ADD-ONS -->
+  <div class="pp-section" id="addons">
+    <div class="section-label">// 03 · ADD-ONS</div>
+    <h2>Service Extras</h2>
+    <div class="addon-list">
+      <div class="addon-item">
+        <div>
+          <div class="addon-name">File Prep / STL Repair</div>
+          <div class="addon-sub">Fixing bad geometry, rescaling, orientation</div>
+        </div>
+        <div class="addon-price">+$5 to $15</div>
+      </div>
+      <div class="addon-item">
+        <div>
+          <div class="addon-name">Rush Job</div>
+          <div class="addon-sub">Delivery within 48hrs, jumps the queue</div>
+        </div>
+        <div class="addon-price">+1.5×</div>
+      </div>
+      <div class="addon-item">
+        <div>
+          <div class="addon-name">Custom Color Match</div>
+          <div class="addon-sub">Sourcing a specific filament color on request</div>
+        </div>
+        <div class="addon-price">+$5 + spool</div>
+      </div>
+      <div class="addon-item">
+        <div>
+          <div class="addon-name">Multi-Piece Assembly</div>
+          <div class="addon-sub">Joining segmented or multi-part prints into a final piece</div>
+        </div>
+        <div class="addon-price">Quote only</div>
+      </div>
+      <div class="addon-item">
+        <div>
+          <div class="addon-name">Resin Cure + Wash</div>
+          <div class="addon-sub">Always included with resin jobs. Listed for transparency.</div>
+        </div>
+        <div class="addon-price">Included</div>
+      </div>
+      <div class="addon-item">
+        <div>
+          <div class="addon-name">Design from Scratch</div>
+          <div class="addon-sub">Custom modeling if you don't have a file. Quoted separately.</div>
+        </div>
+        <div class="addon-price">Quote only</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 STL FILES -->
+  <div class="pp-section" id="stl">
+    <div class="section-label">// 04 · STL FILES</div>
+    <h2>How STL Files Work</h2>
+    <div class="info-block">
+      <div class="info-block-header"><span>📁</span> DO YOU NEED A FILE?</div>
+      <div class="info-block-body">
+        Most jobs require an STL file to print from. If you already have one, just send it over and we're good. If you need me to source one, here's how that works.<br><br>
+        <strong>I purchase the file, you cover the cost upfront.</strong> Before I buy anything you send me the file cost first via whichever payment method works for you. Once that clears I purchase the file and we move into quoting the print. The file cost and the print cost are always two separate line items so it's clear what you're paying for.<br><br>
+        <strong>If you back out after I've already bought the file</strong>, that money is spent. It covered a real purchase I made on your behalf. You're not being charged anything extra — the file just cost what it cost and that transaction is done regardless of whether the print moves forward.<br><br>
+        <strong>If you cancel before I've bought the file</strong>, just let me know and I'll send it back. No big deal.<br><br>
+        <strong>File library.</strong> Once I purchase a file I keep it. If someone else asks for the same model down the road, I already have it and there's no file cost for them. This is part of how I keep things running efficiently over time.
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 HOW IT WORKS -->
+  <div class="pp-section" id="process">
+    <div class="section-label">// 05 · HOW IT WORKS</div>
+    <h2>Queue and Process</h2>
+    <div class="info-block">
+      <div class="info-block-header"><span>📋</span> ORDER FLOW</div>
+      <div class="info-block-body">
+        <ul>
+          <li>Send your file (STL or 3MF) plus what material and color you want and any sizing notes.</li>
+          <li>I'll slice it, confirm weight and estimated time, and give you a final price before starting.</li>
+          <li><strong>No surprises.</strong> You approve the quote before anything gets queued.</li>
+          <li>Turnaround is typically <strong>2 to 5 days</strong> depending on queue depth and print time. I'll give you a real estimate, not a guess.</li>
+          <li>Rush jobs (48hr) available for 1.5× but ask first. Not always possible for large prints.</li>
+          <li>Pickup preferred. Can discuss drop-off for people nearby.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="info-block">
+      <div class="info-block-header"><span>⚠️</span> EDGE CASES TO KNOW</div>
+      <div class="info-block-body">
+        <ul>
+          <li><strong>Oversized props (weapons, staffs, long builds):</strong> Anything that doesn't fit on a single bed gets split into segments. The segments get printed separately and joined. Assembly is a separate quoted cost on top of the print price depending on how many parts and how complex the joins are.</li>
+          <li><strong>Multicolor without pre-assigned colors:</strong> If your file already has color regions set up, great. If I have to manually go in and paint every region myself, that's extra labor quoted separately based on model complexity. Send a reference image either way so I know what you're going for.</li>
+          <li><strong>Massive prints (500g+):</strong> Quoted individually. May be split across multiple sessions or done in parts. Deposit required upfront.</li>
+          <li><strong>Multi-part armor sets:</strong> Staged pickup is fine. I'll hand off pieces as they're done rather than holding everything.</li>
+          <li><strong>Resin jobs:</strong> Hit me up before assuming. Depends on what resin I have loaded, what your piece needs, and cure time. Not always a fast turnaround.</li>
+          <li><strong>Files without supports:</strong> I'll orient and add my own. If you want specific support settings include notes or I'll default to my best judgment.</li>
+          <li><strong>AMS color order:</strong> Tell me which parts should be which colors or send a reference image. Without guidance I'll make a call and check with you before printing.</li>
+          <li><strong>Print failures:</strong> If something fails on my end (adhesion issue, printer error) I reprint at no extra charge. If the file is the problem (bad geometry, unprintable design) we'll talk it through.</li>
+          <li><strong>Scale changes after quoting:</strong> If you want it bigger after we've agreed on a price, that's a new quote. Scaling up changes material use significantly.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="info-block">
+      <div class="info-block-header"><span>🖌️</span> A NOTE ON POST-PROCESSING</div>
+      <div class="info-block-body">
+        Post-processing (painting, priming, sanding, finishing) is its own whole beast and I'm not advertising it as a service right now. What I will always do is remove supports and make sure resin prints are fully washed and cured before they leave my hands. That's just baseline. I'm not handing anyone a half-done print.<br><br>
+        That said, if you need a light sanding pass or a coat of primer to get something paint-ready, reach out and ask. I have the resources to help on a case by case basis. Just don't expect it as a standard offering and understand it depends on my current workload.
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 SIZING -->
+  <div class="pp-section" id="sizing">
+    <div class="section-label">// 06 · SIZING AND FIT</div>
+    <h2>Getting Your Measurements Right</h2>
+    <div class="info-block">
+      <div class="info-block-header"><span>🪖</span> HELMETS · HOW THIS WORKS</div>
+      <div class="info-block-body">
+        Helmets are the most measurement-sensitive thing I print and I've built a process around making sure they actually fit before I commit to a full print. Here's how it goes:<br><br>
+        <strong>Step 1 · Calipers.</strong> I'll send you a set of cosplay calipers at no charge. These are on me as part of the service. Use them to take accurate measurements of your head.<br><br>
+        <strong>Step 2 · Measurements into the viewer.</strong> I take your numbers and plug them into a sizing viewer that lets me dynamically adjust the helmet scale to your head dimensions.<br><br>
+        <strong>Step 3 · Test ring first.</strong> Before I print a single panel of the actual helmet, I print a test ring sized to your head. This is a small fast print that costs almost nothing. You try it on, we confirm fit. If it's off, we iterate on the ring until it sits right. This is the checkpoint.<br><br>
+        <strong>Step 4 · Full helmet only after ring approval.</strong> Once the test ring fits well, I move forward with the helmet. At that point we've eliminated the guesswork.<br><br>
+        If the final helmet doesn't fit after a confirmed test ring, that's on me and I'll make it right. If you approved the ring and something else is off (bad measurement, change of mind on fit, etc.) that's a reprint at cost. I've done enough of these to catch most variables but I'll always flag anything I'm not sure about before printing.
+      </div>
+    </div>
+    <div class="info-block">
+      <div class="info-block-header"><span>📏</span> HELMET MEASUREMENTS I NEED</div>
+      <div class="info-block-body">
+        I'll send you cosplay calipers before we start. Use those, not a tape measure, not a ruler. The calipers are what make these measurements accurate enough to actually work with. Measure in centimeters.
+        <ul>
+          <li><strong>Head circumference:</strong> Wrap around the widest part of your head, about an inch above your ears and across your forehead.</li>
+          <li><strong>Front to back:</strong> Forehead hairline straight back to the base of your skull.</li>
+          <li><strong>Ear to ear (over the top):</strong> From just above one ear, over the crown of your head, to just above the other ear.</li>
+          <li><strong>Chin to top of head:</strong> Straight up from your chin to the highest point of your skull.</li>
+        </ul>
+        Wait until you have the calipers in hand before taking any measurements. Eyeballing it or using a random tape measure defeats the whole purpose of the process.
+      </div>
+    </div>
+    <div class="info-block">
+      <div class="info-block-header"><span>🛡️</span> ARMOR SIZING</div>
+      <div class="info-block-body">
+        Armor is a different system. There's no universal measurement guide because it depends entirely on what piece you're ordering. A chest plate needs different numbers than a pauldron, greave, or vambrace.<br><br>
+        When you reach out about an armor piece I'll tell you exactly what measurements I need for that specific part. You'll use a soft tailor's tape and send them over. I'll do the scaling work on my end.<br><br>
+        For in-person customers I can do a quick physical fit check as pieces come off the printer, which makes the whole process a lot smoother. For remote orders, clear measurements upfront are everything.
+      </div>
+    </div>
+    <div class="info-block">
+      <div class="info-block-header"><span>🔁</span> NON-LOCAL HELMET ORDERS</div>
+      <div class="info-block-body">
+        If you're not local, the test ring still happens. It just ships to you first. The ring ships via USPS and that cost is separate from your print quote. It's a small piece so shipping is minimal, but I want to be upfront that it's a step that adds a little time and a small cost before the main print begins.<br><br>
+        We iterate on the ring via photos and feedback until it fits. Once you confirm it's good, I start on the helmet. This process protects both of us.
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 SHIPPING -->
+  <div class="pp-section" id="shipping">
+    <div class="section-label">// 07 · SHIPPING</div>
+    <h2>Shipping</h2>
+    <div class="info-block">
+      <div class="info-block-header"><span>📦</span> HOW SHIPPING WORKS</div>
+      <div class="info-block-body">
+        I'll ship anywhere in the US. Local pickup is always preferred since it's free and I can hand it off directly, but if you're not in the area I've got you covered.
+        <ul>
+          <li><strong>Carrier:</strong> USPS Priority Mail or Ground Advantage depending on size and timeline. I'll use whichever makes the most sense for your order.</li>
+          <li><strong>Cost:</strong> Billed at exact cost, no markup. I'll weigh and measure the packaged print and give you the real number before it ships.</li>
+          <li><strong>Packaging:</strong> I pack prints properly. Bubble wrap, foam, whatever the piece needs. Fragile or spiky stuff gets extra care. If it arrives damaged because I packed it badly, that's on me.</li>
+          <li><strong>Insurance:</strong> Required on any order with a print value of $60 or more. Cost gets added to your shipping total. I'm not absorbing a loss on a long print because a box got crushed.</li>
+          <li><strong>Tracking:</strong> Always included. I'll send you the number as soon as it drops.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="info-block">
+      <div class="info-block-header"><span>⚠️</span> SHIPPING EDGE CASES</div>
+      <div class="info-block-body">
+        <ul>
+          <li><strong>Large armor sets:</strong> Bulky pieces may need multiple boxes. I'll quote both together so there are no surprises.</li>
+          <li><strong>Non-local helmet orders:</strong> The test ring ships first in its own package. We confirm fit before the helmet ever ships. See the sizing section above.</li>
+          <li><strong>Damage in transit:</strong> Contact me right away with photos. If I packed it right and USPS crushed it, we file an insurance claim together. If you waived insurance on a sub-$60 order and it arrives broken, I'll do my best to help but I can't eat a full reprint.</li>
+          <li><strong>International:</strong> Not set up for it right now. US only.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 PAYMENT -->
+  <div class="pp-section" id="payment">
+    <div class="section-label">// 08 · PAYMENT</div>
+    <h2>How to Pay</h2>
+    <div class="payment-grid">
+      <div class="payment-card preferred">
+        <span class="payment-icon">💵</span>
+        <div class="payment-name">Cash</div>
+        <div class="payment-note">Always preferred.</div>
+      </div>
+      <div class="payment-card">
+        <span class="payment-icon">💙</span>
+        <div class="payment-name">Zelle</div>
+        <div class="payment-note">Handle on request.</div>
+      </div>
+      <div class="payment-card">
+        <span class="payment-icon">💚</span>
+        <div class="payment-name">Cash App</div>
+        <div class="payment-note">$Cashtag on request.</div>
+      </div>
+      <div class="payment-card">
+        <span class="payment-icon">💜</span>
+        <div class="payment-name">Venmo</div>
+        <div class="payment-note">@Handle on request.</div>
+      </div>
+      <div class="payment-card">
+        <span class="payment-icon">🔵</span>
+        <div class="payment-name">PayPal</div>
+        <div class="payment-note">Friends and Family only.</div>
+      </div>
+    </div>
+    <div class="info-block">
+      <div class="info-block-header"><span>💰</span> PAYMENT POLICY</div>
+      <div class="info-block-body">
+        <ul>
+          <li><strong>Small jobs (under $30):</strong> Pay on pickup. No deposit needed.</li>
+          <li><strong>Medium jobs ($30 to $80):</strong> 50% deposit to start, remainder on pickup.</li>
+          <li><strong>Large jobs ($80+) or full armor sets:</strong> 50% deposit required before I queue it. Balance due on delivery.</li>
+          <li>Deposits are <strong>non-refundable</strong> once printing has started. Material is consumed either way.</li>
+          <li>If I quote you and you cancel before I start, no charge. Just let me know promptly so I can fill the slot.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 GROUND RULES -->
+  <div class="pp-section" id="rules">
+    <div class="section-label">// 09 · GROUND RULES</div>
+    <div class="policy-strip">
+      <h3>📋 Before You Order</h3>
+      I'm not a print farm. This is a small personal service. I manage the queue based on capacity, not just order time. Clear communication means faster turnaround for everyone.<br><br>
+      <strong>Send me the file before you ask for a price.</strong> I can't quote based on vibes. I need to slice it to know what it'll cost.
+    </div>
+  </div>
+
+  <footer>
+    <span>PAUL'S PRINTS · TO ORDER ONLY</span>
+    <span>FDM · AMS MULTICOLOR · RESIN</span>
+    <span>CONTACT TO START AN ORDER</span>
+  </footer>
+
+</div>
+</div>
+
+<button class="back-to-top" id="backToTop" title="Back to top">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // nav toggle
+  function toggleNav() {
+    const links = document.getElementById('navLinks');
+    const arrow = document.getElementById('navArrow');
+    links.classList.toggle('open');
+    arrow.classList.toggle('open');
+  }
+
+  // close nav on link click
+  document.querySelectorAll('.pp-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+      document.getElementById('navArrow').classList.remove('open');
+    });
+  });
+
+  // back to top
+  const btn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        const offset = 60;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
