@@ -533,7 +533,7 @@
 <div class="container" style="max-width: 920px;">
 
   <header>
-    <div class="pp-badge">● Print Service · By Appointment</div>
+    <div class="pp-badge">● Print Service · To Order</div>
     <h1>Paul's<span>Prints</span></h1>
     <p class="tagline">FDM filament · AMS multicolor · Resin · Cosplay builds. Small-batch to-order printing for display pieces, props, and everything in between.</p>
   </header>
@@ -542,7 +542,7 @@
     <div class="status-item"><span class="dot"></span> BAMBULAB P2S</div>
     <div class="status-item"><span class="dot"></span> ELEGOO NEPTUNE 3 MAX</div>
     <div class="status-item"><span class="dot blue"></span> AMS MULTICOLOR READY</div>
-    <div class="status-item"><span class="dot amber"></span> ELEGOO SATURN ULTRA · RESIN · CONTACT FIRST</div>
+    <div class="status-item"><span class="dot amber"></span> ELEGOO SATURN ULTRA</div>
   </div>
 
   <!-- NAV -->
@@ -561,16 +561,18 @@
       <a class="pp-nav-link" href="#shipping">07 · Shipping</a>
       <a class="pp-nav-link" href="#payment">08 · Payment</a>
       <a class="pp-nav-link" href="#rules">09 · Ground Rules</a>
+      <a class="pp-nav-link" href="#contact">10 · Contact</a>
     </div>
   </div>
 
   <div class="pp-section" id="pricing">
-    <div class="section-label">// 01 · BASE RATES</div>
+    <div class="section-label">// 01 · WHAT I PRINT</div>
     <h2>Print Pricing</h2>
     <div class="note-block">
       <span class="note-label">NOTE</span> · True pricing is entirely determined by the size and complexity of the object. The figures below are starting points, not estimates. I slice every file before quoting so you'll always get a real number before anything is agreed to. I'm fully transparent through the whole process. No surprises, no hidden costs.
     </div>
-    <div class="price-grid">
+
+    <div class="price-grid" style="grid-template-columns: repeat(3, 1fr);">
       <div class="price-card fade-in">
         <span class="card-icon">🖨️</span>
         <div class="card-title">Standard Print</div>
@@ -592,26 +594,20 @@
         <span class="price-range">From $10</span>
         <span class="price-note">Priced per mL of resin used. Contact me before assuming availability.</span>
       </div>
-      <div class="price-card fade-in">
-        <span class="card-icon">📦</span>
-        <div class="card-title">Large Print</div>
-        <div class="card-sub">Multi-part builds, display pieces, anything over 400g.</div>
-        <span class="price-range">From $60</span>
-        <span class="price-note">Always quoted per job. Deposit required before I start.</span>
-      </div>
-      <div class="price-card fade-in">
-        <span class="card-icon">⚔️</span>
-        <div class="card-title">Cosplay Build</div>
-        <div class="card-sub">Helmets, armor, props, weapons. Sizing process applies. See below.</div>
-        <span class="price-range">From $50</span>
-        <span class="price-note">Always quoted after file review and measurements. No exceptions.</span>
-      </div>
-      <div class="price-card fade-in">
-        <span class="card-icon">💬</span>
-        <div class="card-title">Not Sure?</div>
-        <div class="card-sub">Just reach out. Send the file or describe what you want and I'll figure it out with you.</div>
-        <span class="price-range">Let's talk</span>
-        <span class="price-note">No commitment to get a quote.</span>
+    </div>
+
+    <div style="margin-top: 24px; font-size: 13px; line-height: 1.9; color: #bbc8bb; font-family: 'DM Sans', sans-serif;">
+      Those three are the print types. What I can actually make with them is a lot broader than it sounds. Display pieces and statues, cosplay builds (helmets, armor, weapons, swords), miniatures and tabletop minis, large multi-part builds, props and replicas, gifts and custom orders. Honestly just about anything as long as I have the files. If you're not sure whether I can do something, just ask.
+    </div>
+
+    <div class="info-block" style="margin-top: 24px;">
+      <div class="info-block-header"><span>🎲</span> MINIATURE PRICING</div>
+      <div class="info-block-body">
+        Minis are almost always resin since the detail level on filament just doesn't cut it for small characters and figures. Pricing scales down the more you order since the setup, wash, and cure process is essentially the same whether I'm running 1 mini or a full plate of 12.<br><br>
+        <strong>1 to 2 minis:</strong> $12 to $15 each. Single minis carry the full setup cost so this is the floor.<br>
+        <strong>3 to 6 minis:</strong> $8 to $10 each. Good for a small party or a handful of characters.<br>
+        <strong>Full plate (7+):</strong> $6 to $8 each, quoted on total resin used. Best value. Running a full plate is efficient and that gets passed on to you.<br><br>
+        Send me what you want and I'll let you know if they fit a single plate or need to be split across multiple runs.
       </div>
     </div>
   </div>
@@ -631,7 +627,7 @@
         <tbody>
           <tr>
             <td>Material weight</td>
-            <td>The primary driver. Your slicer shows exact grams and that's what you're billed on. <strong>Multicolor jobs are billed on total filament consumed</strong>, including purge waste, not just what's in the final print.</td>
+            <td>The primary driver. My slicer shows exact grams and that's what you're billed on. <strong>Multicolor jobs are billed on total filament consumed</strong>, including purge waste, not just what's in the final print.</td>
           </tr>
           <tr>
             <td>Print time</td>
@@ -672,8 +668,8 @@
       <div class="info-block-header"><span>🧮</span> HOW I ACTUALLY CALCULATE YOUR QUOTE</div>
       <div class="info-block-body">
         I want this to be fully transparent so you know I'm not just making numbers up. Every quote I send is built from the same three pieces.<br><br>
-        <strong>1. Material cost.</strong> I slice your file in OrcaSlicer and it tells me the exact grams of filament your print uses. I take that number, multiply it by what the filament actually costs per gram, then apply a 3x multiplier. That multiplier covers machine wear, electricity, filament that gets wasted on failed prints over time, and the cost of running the service. It's standard for small print operations and it's how I keep this sustainable without overcharging.<br><br>
-        <strong>2. Labor fee.</strong> A flat $8 to $15 per job depending on complexity. This covers my actual time — slicing, setup, QC, support removal, and back and forth communication. The machine does the printing but I'm still putting real time into every order.<br><br>
+        <strong>1. Material cost.</strong> I slice your file and get the exact grams of filament your print uses. I take that number, multiply it by what the filament actually costs per gram, then apply a 3x multiplier. That multiplier covers machine wear, electricity, filament that gets wasted on failed prints over time, and the cost of running the service. It's standard for small print operations and it's how I keep this sustainable without overcharging.<br><br>
+        <strong>2. Labor fee.</strong> A flat $8 to $15 per job depending on complexity. This covers my actual time, slicing, setup, QC, support removal, and back and forth communication. The machine does the printing but I'm still putting real time into every order.<br><br>
         <strong>3. Failure buffer.</strong> 15% on top of material cost. Prints fail sometimes. Bad bed adhesion, a power hiccup, spaghetti at hour 14. That buffer means I don't have to charge you again if something goes wrong on my end and I have to reprint.<br><br>
         For longer prints (12 hours or more) I add a small risk bump on top of that since a failure on a long job costs a lot more than a failure on a short one. I'll always call that out in the quote when it applies so you can see exactly where the number comes from.
       </div>
@@ -708,17 +704,24 @@
       </div>
       <div class="addon-item">
         <div>
-          <div class="addon-name">Multi-Piece Assembly</div>
-          <div class="addon-sub">Joining segmented or multi-part prints into a final piece</div>
+          <div class="addon-name">Color Assignment</div>
+          <div class="addon-sub">Manually painting and assigning color regions on a model that has none set up</div>
         </div>
         <div class="addon-price">Quote only</div>
       </div>
       <div class="addon-item">
         <div>
-          <div class="addon-name">Resin Cure + Wash</div>
-          <div class="addon-sub">Always included with resin jobs. Listed for transparency.</div>
+          <div class="addon-name">Oversized Model Assembly</div>
+          <div class="addon-sub">Joining printed segments of a prop or build that had to be split across multiple beds</div>
         </div>
-        <div class="addon-price">Included</div>
+        <div class="addon-price">Quote only</div>
+      </div>
+      <div class="addon-item">
+        <div>
+          <div class="addon-name">Multi-Piece Assembly</div>
+          <div class="addon-sub">Gluing and fitting separate parts into a finished unit</div>
+        </div>
+        <div class="addon-price">Quote only</div>
       </div>
       <div class="addon-item">
         <div>
@@ -729,8 +732,6 @@
       </div>
     </div>
   </div>
-
-  <!-- 04 STL FILES -->
   <div class="pp-section" id="stl">
     <div class="section-label">// 04 · STL FILES</div>
     <h2>How STL Files Work</h2>
@@ -739,7 +740,7 @@
       <div class="info-block-body">
         Most jobs require an STL file to print from. If you already have one, just send it over and we're good. If you need me to source one, here's how that works.<br><br>
         <strong>I purchase the file, you cover the cost upfront.</strong> Before I buy anything you send me the file cost first via whichever payment method works for you. Once that clears I purchase the file and we move into quoting the print. The file cost and the print cost are always two separate line items so it's clear what you're paying for.<br><br>
-        <strong>If you back out after I've already bought the file</strong>, that money is spent. It covered a real purchase I made on your behalf. You're not being charged anything extra — the file just cost what it cost and that transaction is done regardless of whether the print moves forward.<br><br>
+        <strong>If you back out after I've already bought the file</strong>, that money is spent. It covered a real purchase I made on your behalf. You're not being charged anything extra. The file just cost what it cost and that transaction is done regardless of whether the print moves forward.<br><br>
         <strong>If you cancel before I've bought the file</strong>, just let me know and I'll send it back. No big deal.<br><br>
         <strong>File library.</strong> Once I purchase a file I keep it. If someone else asks for the same model down the road, I already have it and there's no file cost for them. This is part of how I keep things running efficiently over time.
       </div>
@@ -801,19 +802,6 @@
         <strong>Step 3 · Test ring first.</strong> Before I print a single panel of the actual helmet, I print a test ring sized to your head. This is a small fast print that costs almost nothing. You try it on, we confirm fit. If it's off, we iterate on the ring until it sits right. This is the checkpoint.<br><br>
         <strong>Step 4 · Full helmet only after ring approval.</strong> Once the test ring fits well, I move forward with the helmet. At that point we've eliminated the guesswork.<br><br>
         If the final helmet doesn't fit after a confirmed test ring, that's on me and I'll make it right. If you approved the ring and something else is off (bad measurement, change of mind on fit, etc.) that's a reprint at cost. I've done enough of these to catch most variables but I'll always flag anything I'm not sure about before printing.
-      </div>
-    </div>
-    <div class="info-block">
-      <div class="info-block-header"><span>📏</span> HELMET MEASUREMENTS I NEED</div>
-      <div class="info-block-body">
-        I'll send you cosplay calipers before we start. Use those, not a tape measure, not a ruler. The calipers are what make these measurements accurate enough to actually work with. Measure in centimeters.
-        <ul>
-          <li><strong>Head circumference:</strong> Wrap around the widest part of your head, about an inch above your ears and across your forehead.</li>
-          <li><strong>Front to back:</strong> Forehead hairline straight back to the base of your skull.</li>
-          <li><strong>Ear to ear (over the top):</strong> From just above one ear, over the crown of your head, to just above the other ear.</li>
-          <li><strong>Chin to top of head:</strong> Straight up from your chin to the highest point of your skull.</li>
-        </ul>
-        Wait until you have the calipers in hand before taking any measurements. Eyeballing it or using a random tape measure defeats the whole purpose of the process.
       </div>
     </div>
     <div class="info-block">
@@ -897,13 +885,9 @@
     <div class="info-block">
       <div class="info-block-header"><span>💰</span> PAYMENT POLICY</div>
       <div class="info-block-body">
-        <ul>
-          <li><strong>Small jobs (under $30):</strong> Pay on pickup. No deposit needed.</li>
-          <li><strong>Medium jobs ($30 to $80):</strong> 50% deposit to start, remainder on pickup.</li>
-          <li><strong>Large jobs ($80+) or full armor sets:</strong> 50% deposit required before I queue it. Balance due on delivery.</li>
-          <li>Deposits are <strong>non-refundable</strong> once printing has started. Material is consumed either way.</li>
-          <li>If I quote you and you cancel before I start, no charge. Just let me know promptly so I can fill the slot.</li>
-        </ul>
+        For anything under $30, just pay on pickup. No deposit needed.<br><br>
+        For anything over $30, I ask for a deposit before I start. Either half or a quarter, whatever works for you. I'm pretty flexible on this and happy to work something out. Just talk to me.<br><br>
+        Once printing has started the deposit is non-refundable since material is already consumed. If you cancel before I start, no charge at all. Just give me a heads up so I can fill the slot.
       </div>
     </div>
   </div>
@@ -915,6 +899,19 @@
       <h3>📋 Before You Order</h3>
       I'm not a print farm. This is a small personal service. I manage the queue based on capacity, not just order time. Clear communication means faster turnaround for everyone.<br><br>
       <strong>Send me the file before you ask for a price.</strong> I can't quote based on vibes. I need to slice it to know what it'll cost.
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="pp-section" id="contact">
+    <div class="section-label">// 10 · CONTACT</div>
+    <h2>Get In Touch</h2>
+    <div class="info-block">
+      <div class="info-block-header"><span>📸</span> INSTAGRAM</div>
+      <div class="info-block-body">
+        Best way to reach me is Instagram. Send a DM with what you're looking for, a reference image if you have one, and we'll go from there. I'll get back to you as soon as I can.<br><br>
+        <a href="https://www.instagram.com/the8ballpaul" target="_blank" style="display: inline-block; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--accent); border: 1px solid var(--accent); padding: 10px 20px; text-decoration: none; letter-spacing: 0.1em; transition: background 0.15s;" onmouseover="this.style.background='rgba(127,255,95,0.08)'" onmouseout="this.style.background='none'">@the8ballpaul on Instagram →</a>
+      </div>
     </div>
   </div>
 
